@@ -5,7 +5,7 @@ This guide provides comprehensive testing instructions for all API endpoints usi
 ## Accessing Swagger Documentation
 
 1. Start your backend server: `npm start` or `npm run dev`
-2. Open your browser and navigate to: `http://localhost:5000/api-docs`
+2. Open your browser and navigate to: `https://yaqeen-backend.vercel.app/api-docs`
 3. You'll see the interactive Swagger UI with all endpoints organized by tags
 
 ## Authentication Setup
@@ -22,8 +22,10 @@ Before testing protected endpoints, you'll need to:
 ### 1. Authentication Endpoints (`/api/auth`)
 
 #### Register User
+
 - **Endpoint**: `POST /api/auth/register`
 - **Test Data**:
+
 ```json
 {
   "name": "Test User",
@@ -33,32 +35,41 @@ Before testing protected endpoints, you'll need to:
   "phone": "+1234567890"
 }
 ```
+
 - **Expected Response**: 201 with user data and JWT token
 
 #### Login
+
 - **Endpoint**: `POST /api/auth/login`
 - **Test Data**:
+
 ```json
 {
   "email": "testuser@example.com",
   "password": "testpassword123"
 }
 ```
+
 - **Expected Response**: 200 with JWT token and user data
 
 #### Forgot Password
+
 - **Endpoint**: `POST /api/auth/forgot-password`
 - **Test Data**:
+
 ```json
 {
   "email": "testuser@example.com"
 }
 ```
+
 - **Expected Response**: 200 with OTP sent message
 
 #### Reset Password
+
 - **Endpoint**: `POST /api/auth/reset-password`
 - **Test Data**:
+
 ```json
 {
   "email": "testuser@example.com",
@@ -66,34 +77,42 @@ Before testing protected endpoints, you'll need to:
   "newPassword": "newpassword123"
 }
 ```
+
 - **Expected Response**: 200 with password reset success
 
 #### Change Password (Authenticated)
+
 - **Endpoint**: `POST /api/auth/change-password`
 - **Test Data**:
+
 ```json
 {
   "oldPassword": "testpassword123",
   "newPassword": "newpassword123"
 }
 ```
+
 - **Expected Response**: 200 with password change success
 
 #### Resend OTP
+
 - **Endpoint**: `POST /api/auth/resend-otp`
 - **Test Data**:
+
 ```json
 {
   "email": "testuser@example.com"
 }
 ```
+
 - **Expected Response**: 200 with OTP resent message
 
 ### 2. Product Endpoints (`/api/products`)
 
 #### Get All Products
+
 - **Endpoint**: `GET /api/products`
-- **Query Parameters**: 
+- **Query Parameters**:
   - `page` (optional): Page number
   - `limit` (optional): Items per page
   - `category` (optional): Filter by category
@@ -101,13 +120,16 @@ Before testing protected endpoints, you'll need to:
 - **Expected Response**: 200 with paginated products list
 
 #### Get Product by ID
+
 - **Endpoint**: `GET /api/products/{id}`
 - **Path Parameter**: `id` - Product ID
 - **Expected Response**: 200 with product details
 
 #### Create Product (Admin Only)
+
 - **Endpoint**: `POST /api/products`
 - **Test Data**:
+
 ```json
 {
   "name": "Test Product",
@@ -120,25 +142,30 @@ Before testing protected endpoints, you'll need to:
   "inStock": true
 }
 ```
+
 - **Expected Response**: 201 with created product
 
 #### Update Product (Admin Only)
+
 - **Endpoint**: `PUT /api/products/{id}`
 - **Path Parameter**: `id` - Product ID
 - **Test Data**: Same as create product
 - **Expected Response**: 200 with updated product
 
 #### Delete Product (Admin Only)
+
 - **Endpoint**: `DELETE /api/products/{id}`
 - **Path Parameter**: `id` - Product ID
 - **Expected Response**: 200 with deletion success message
 
 #### Get Products by Category
+
 - **Endpoint**: `GET /api/products/category/{category}`
 - **Path Parameter**: `category` - Category name
 - **Expected Response**: 200 with filtered products
 
 #### Get Products by Collection
+
 - **Endpoint**: `GET /api/products/collection/{collection}`
 - **Path Parameter**: `collection` - Collection name
 - **Expected Response**: 200 with filtered products
@@ -146,8 +173,10 @@ Before testing protected endpoints, you'll need to:
 ### 3. Order Endpoints (`/api/orders`)
 
 #### Create Order
+
 - **Endpoint**: `POST /api/orders`
 - **Test Data**:
+
 ```json
 {
   "products": [
@@ -160,14 +189,17 @@ Before testing protected endpoints, you'll need to:
   "shippingAddress": "123 Test St, Test City, Test Country"
 }
 ```
+
 - **Expected Response**: 201 with created order
 
 #### Get Order by ID (Authenticated)
+
 - **Endpoint**: `GET /api/orders/{orderId}`
 - **Path Parameter**: `orderId` - Order ID
 - **Expected Response**: 200 with order details
 
 #### Get All Orders (Admin Only)
+
 - **Endpoint**: `GET /api/orders/admin`
 - **Query Parameters**:
   - `page` (optional): Page number
@@ -176,17 +208,21 @@ Before testing protected endpoints, you'll need to:
 - **Expected Response**: 200 with paginated orders list
 
 #### Update Order Status (Admin Only)
+
 - **Endpoint**: `PUT /api/orders/{orderId}/status`
 - **Path Parameter**: `orderId` - Order ID
 - **Test Data**:
+
 ```json
 {
   "status": "processing"
 }
 ```
+
 - **Expected Response**: 200 with updated order
 
 #### Get User Orders (Authenticated)
+
 - **Endpoint**: `GET /api/orders/my/orders`
 - **Query Parameters**:
   - `page` (optional): Page number
@@ -196,6 +232,7 @@ Before testing protected endpoints, you'll need to:
 ### 4. User Management Endpoints (`/api/users`)
 
 #### List All Users (Superadmin Only)
+
 - **Endpoint**: `GET /api/users`
 - **Query Parameters**:
   - `page` (optional): Page number
@@ -204,6 +241,7 @@ Before testing protected endpoints, you'll need to:
 - **Expected Response**: 200 with paginated users list
 
 #### Delete User (Superadmin Only)
+
 - **Endpoint**: `DELETE /api/users/{id}`
 - **Path Parameter**: `id` - User ID
 - **Expected Response**: 200 with deletion success message
@@ -211,6 +249,7 @@ Before testing protected endpoints, you'll need to:
 ### 5. Admin Management Endpoints (`/api/admins`)
 
 #### List All Admins (Superadmin Only)
+
 - **Endpoint**: `GET /api/admins`
 - **Query Parameters**:
   - `page` (optional): Page number
@@ -219,8 +258,10 @@ Before testing protected endpoints, you'll need to:
 - **Expected Response**: 200 with admins list
 
 #### Create Admin (Superadmin Only)
+
 - **Endpoint**: `POST /api/admins`
 - **Test Data**:
+
 ```json
 {
   "name": "Test Admin",
@@ -229,12 +270,15 @@ Before testing protected endpoints, you'll need to:
   "role": "admin"
 }
 ```
+
 - **Expected Response**: 201 with created admin
 
 #### Update Admin (Superadmin Only)
+
 - **Endpoint**: `PUT /api/admins/{id}`
 - **Path Parameter**: `id` - Admin ID
 - **Test Data**:
+
 ```json
 {
   "name": "Updated Admin Name",
@@ -242,9 +286,11 @@ Before testing protected endpoints, you'll need to:
   "role": "admin"
 }
 ```
+
 - **Expected Response**: 200 with updated admin
 
 #### Delete Admin (Superadmin Only)
+
 - **Endpoint**: `DELETE /api/admins/{id}`
 - **Path Parameter**: `id` - Admin ID
 - **Expected Response**: 200 with deletion success message
@@ -252,50 +298,62 @@ Before testing protected endpoints, you'll need to:
 ### 6. Tag Management Endpoints (`/api/tags`)
 
 #### Create Tag
+
 - **Endpoint**: `POST /api/tags`
 - **Test Data**:
+
 ```json
 {
   "name": "Test Category",
   "type": "category"
 }
 ```
+
 - **Expected Response**: 201 with created tag
 
 #### Get Tag by Name
+
 - **Endpoint**: `GET /api/tags/name/{name}`
 - **Path Parameter**: `name` - Tag name
 - **Expected Response**: 200 with tag details
 
 #### Get All Categories
+
 - **Endpoint**: `GET /api/tags/categories`
 - **Expected Response**: 200 with categories list
 
 #### Get All Collections
+
 - **Endpoint**: `GET /api/tags/collections`
 - **Expected Response**: 200 with collections list
 
 #### Delete Tag
+
 - **Endpoint**: `DELETE /api/tags/name/{name}`
 - **Path Parameter**: `name` - Tag name
 - **Expected Response**: 200 with deletion success message
 
 #### Add Sale to Tag
+
 - **Endpoint**: `POST /api/tags/add-sale`
 - **Test Data**:
+
 ```json
 {
   "name": "Test Category",
   "salePercentage": 25
 }
 ```
+
 - **Expected Response**: 200 with updated tag
 
 ### 7. Message Endpoints (`/api/messages`)
 
 #### Create Message
+
 - **Endpoint**: `POST /api/messages`
 - **Test Data**:
+
 ```json
 {
   "name": "Test User",
@@ -304,9 +362,11 @@ Before testing protected endpoints, you'll need to:
   "message": "This is a test message for testing purposes"
 }
 ```
+
 - **Expected Response**: 201 with created message
 
 #### Get All Messages (Admin Only)
+
 - **Endpoint**: `GET /api/messages`
 - **Query Parameters**:
   - `page` (optional): Page number
@@ -315,6 +375,7 @@ Before testing protected endpoints, you'll need to:
 - **Expected Response**: 200 with paginated messages list
 
 #### Get Messages by User Email
+
 - **Endpoint**: `GET /api/messages/{userEmail}`
 - **Path Parameter**: `userEmail` - User's email address
 - **Expected Response**: 200 with user's messages
@@ -322,26 +383,31 @@ Before testing protected endpoints, you'll need to:
 ## Testing Workflow
 
 ### 1. Basic Setup
+
 1. Start the server
 2. Open Swagger UI
 3. Test public endpoints first
 
 ### 2. User Authentication
+
 1. Register a test user
 2. Login to get JWT token
 3. Authorize in Swagger UI
 
 ### 3. Protected Endpoints
+
 1. Test user-specific endpoints
 2. Test admin endpoints (if you have admin role)
 3. Test superadmin endpoints (if you have superadmin role)
 
 ### 4. Data Validation
+
 1. Test with invalid data
 2. Test with missing required fields
 3. Test with malformed data
 
 ### 5. Error Handling
+
 1. Test 400 responses (bad request)
 2. Test 401 responses (unauthorized)
 3. Test 403 responses (forbidden)
@@ -351,6 +417,7 @@ Before testing protected endpoints, you'll need to:
 ## Common Test Scenarios
 
 ### Scenario 1: Complete User Journey
+
 1. Register user
 2. Login user
 3. Browse products
@@ -359,6 +426,7 @@ Before testing protected endpoints, you'll need to:
 6. Send message
 
 ### Scenario 2: Admin Operations
+
 1. Login as admin
 2. Create product
 3. Update product
@@ -367,6 +435,7 @@ Before testing protected endpoints, you'll need to:
 6. Manage tags
 
 ### Scenario 3: Error Testing
+
 1. Invalid authentication
 2. Missing required fields
 3. Invalid data types
@@ -387,6 +456,7 @@ Before testing protected endpoints, you'll need to:
 ## Troubleshooting
 
 ### Common Issues
+
 1. **CORS errors**: Ensure backend CORS is configured
 2. **Authentication failures**: Check JWT token format and expiration
 3. **Schema validation errors**: Verify request body matches schema
@@ -394,6 +464,7 @@ Before testing protected endpoints, you'll need to:
 5. **File upload issues**: Verify multer configuration
 
 ### Debug Steps
+
 1. Check server logs for errors
 2. Verify environment variables
 3. Test endpoints with Postman/curl

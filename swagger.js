@@ -18,7 +18,7 @@ const options = {
           description: "Development server",
         },
         {
-          url: "https://api.yaqeenclothing.com",
+          url: "https://yaqeen-backend.vercel.app",
           description: "Production server",
         },
       ],

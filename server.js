@@ -83,7 +83,7 @@ mongoose
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
       console.log(
-        `Swagger documentation available at http://localhost:${PORT}/api-docs`
+        `Swagger documentation available at https://yaqeen-backend.vercel.app:${PORT}/api-docs`
       );
     });
   })

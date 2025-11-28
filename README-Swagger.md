@@ -3,11 +3,13 @@
 ## Quick Start
 
 ### 1. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 2. Start the Server
+
 ```bash
 npm start
 # or for development with auto-reload
@@ -15,9 +17,11 @@ npm run dev
 ```
 
 ### 3. Access Swagger Documentation
+
 Open your browser and navigate to:
+
 ```
-http://localhost:5000/api-docs
+https://yaqeen-backend.vercel.app/api-docs
 ```
 
 ## What's Included
@@ -33,24 +37,31 @@ http://localhost:5000/api-docs
 ## API Endpoints Covered
 
 ### Authentication (7 endpoints)
+
 - User registration, login, password management
 
 ### Products (7 endpoints)
+
 - CRUD operations, filtering, categorization
 
 ### Orders (6 endpoints)
+
 - Order creation, management, status updates
 
 ### Users (2 endpoints)
+
 - User listing and management (Superadmin only)
 
 ### Admins (4 endpoints)
+
 - Admin user management (Superadmin only)
 
 ### Tags (6 endpoints)
+
 - Category and collection management
 
 ### Messages (3 endpoints)
+
 - Contact form and message management
 
 ## Testing Your API
@@ -74,6 +85,7 @@ http://localhost:5000/api-docs
 ## Customization
 
 The Swagger configuration is in `swagger.js` and can be easily modified:
+
 - Change API title and description
 - Add new schemas
 - Modify server URLs

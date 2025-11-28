@@ -1,16 +1,16 @@
-const emailService = require('./emailService');
-const User = require('../models/User');
+const emailService = require("./emailService");
+const User = require("../models/User");
 
 /**
  * In-process email campaign service (no external queue).
  * Sends promotional emails directly using Nodemailer transporter.
  */
 class EmailCampaignService {
-  async sendSaleEmail(products, salePercentage, saleType = 'product') {
+  async sendSaleEmail(products, salePercentage, saleType = "product") {
     // Fetch recipients who allow promotional emails
     const users = await User.find({
-      'emailPreferences.promotionalEmails': true,
-      email: { $exists: true, $ne: '' }
+      "emailPreferences.promotionalEmails": true,
+      email: { $exists: true, $ne: "" },
     });
 
     let sentCount = 0;
@@ -18,7 +18,8 @@ class EmailCampaignService {
       try {
         // Ensure user has an unsubscribe token
         if (!user.emailPreferences.unsubscribeToken) {
-          user.emailPreferences.unsubscribeToken = this.#generateUnsubscribeToken();
+          user.emailPreferences.unsubscribeToken =
+            this.#generateUnsubscribeToken();
           await user.save();
         }
 
@@ -26,13 +27,17 @@ class EmailCampaignService {
           products,
           salePercentage,
           saleType,
-          { email: user.email, name: user.name, unsubscribeToken: user.emailPreferences.unsubscribeToken }
+          {
+            email: user.email,
+            name: user.name,
+            unsubscribeToken: user.emailPreferences.unsubscribeToken,
+          }
         );
 
         await emailService.sendMail({
           to: user.email,
           subject: `🎉 Special Sale Alert - Up to ${salePercentage}% OFF!`,
-          html
+          html,
         });
 
         sentCount += 1;
@@ -49,18 +54,22 @@ class EmailCampaignService {
     // Update lastEmailSent for analytics
     await User.updateMany(
       { _id: { $in: users.map((u) => u._id) } },
-      { 'emailPreferences.lastEmailSent': new Date() }
+      { "emailPreferences.lastEmailSent": new Date() }
     );
 
     return { success: true, recipientsCount: sentCount };
   }
 
   #generateUnsubscribeToken() {
-    return Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+    return (
+      Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2)
+    );
   }
 
   #generateSaleEmailContent(products, salePercentage, saleType, recipient) {
-    const unsubscribeUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/unsubscribe?token=${recipient.unsubscribeToken}`;
+    const unsubscribeUrl = `${
+      process.env.FRONTEND_URL || "https://yaqeen-backend.vercel.app"
+    }/unsubscribe?token=${recipient.unsubscribeToken}`;
 
     const productsHtml = products
       .map(
@@ -69,15 +78,24 @@ class EmailCampaignService {
         <div style="display: flex; align-items: center;">
           ${
             product.images && product.images.length > 0
-              ? `<img src="data:image/jpeg;base64,${product.images[0].toString('base64')}" alt="${product.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; margin-right: 16px;">`
-              : ''
+              ? `<img src="data:image/jpeg;base64,${product.images[0].toString(
+                  "base64"
+                )}" alt="${
+                  product.name
+                }" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; margin-right: 16px;">`
+              : ""
           }
           <div style="flex: 1;">
-            <h3 style="margin: 0 0 8px 0; color: #333; font-size: 18px;">${product.name}</h3>
+            <h3 style="margin: 0 0 8px 0; color: #333; font-size: 18px;">${
+              product.name
+            }</h3>
             <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="text-decoration: line-through; color: #999; font-size: 16px;">${product.price} EGP</span>
+              <span style="text-decoration: line-through; color: #999; font-size: 16px;">${
+                product.price
+              } EGP</span>
               <span style="color: #e53e3e; font-weight: bold; font-size: 18px;">${
-                product.salePrice || Math.round(product.price * (1 - salePercentage / 100))
+                product.salePrice ||
+                Math.round(product.price * (1 - salePercentage / 100))
               } EGP</span>
               <span style="background: #e53e3e; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">${salePercentage}% OFF</span>
             </div>
@@ -85,7 +103,7 @@ class EmailCampaignService {
         </div>
       </div>`
       )
-      .join('');
+      .join("");
 
     return `
       <div style="font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px;">
@@ -93,12 +111,14 @@ class EmailCampaignService {
           <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 24px; text-align: center;">
             <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold;">🎉 Special Sale Alert!</h1>
             <p style="margin: 8px 0 0 0; color: #ffffff; font-size: 18px;">Up to ${salePercentage}% OFF on ${
-              saleType === 'product' ? 'selected products' : saleType
-            }</p>
+      saleType === "product" ? "selected products" : saleType
+    }</p>
           </div>
 
           <div style="padding: 32px 24px;">
-            <p style="font-size: 18px; margin-bottom: 16px; color: #333;">Hi ${recipient.name || 'there'}!</p>
+            <p style="font-size: 18px; margin-bottom: 16px; color: #333;">Hi ${
+              recipient.name || "there"
+            }!</p>
             <p style="font-size: 16px; margin-bottom: 24px; color: #666;">
               We're excited to bring you amazing deals on our latest collection. Don't miss out on these incredible savings!
             </p>
@@ -108,7 +128,7 @@ class EmailCampaignService {
             </div>
 
             <div style="text-align: center; margin: 32px 0;">
-              <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/products" 
+              <a href="${"https://yaqeenshop.vercel.app"}/products" 
                  style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block;">
                 Shop Now
               </a>
@@ -134,5 +154,3 @@ class EmailCampaignService {
 }
 
 module.exports = new EmailCampaignService();
-
-
