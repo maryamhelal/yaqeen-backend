@@ -5,7 +5,7 @@ This guide provides comprehensive testing instructions for all API endpoints usi
 ## Accessing Swagger Documentation
 
 1. Start your backend server: `npm start` or `npm run dev`
-2. Open your browser and navigate to: `https://yaqeen-backend.vercel.app/api-docs`
+2. Open your browser and navigate to: `http://localhost:5000/api-docs`
 3. You'll see the interactive Swagger UI with all endpoints organized by tags
 
 ## Authentication Setup

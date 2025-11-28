@@ -68,7 +68,7 @@ class EmailCampaignService {
 
   #generateSaleEmailContent(products, salePercentage, saleType, recipient) {
     const unsubscribeUrl = `${
-      process.env.FRONTEND_URL || "https://yaqeen-backend.vercel.app"
+      process.env.FRONTEND_URL || "https://yaqeenshop.vercel.app"
     }/unsubscribe?token=${recipient.unsubscribeToken}`;
 
     const productsHtml = products

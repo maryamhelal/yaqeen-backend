@@ -21,7 +21,7 @@ npm run dev
 Open your browser and navigate to:
 
 ```
-https://yaqeen-backend.vercel.app/api-docs
+http://localhost:5000/api-docs
 ```
 
 ## What's Included

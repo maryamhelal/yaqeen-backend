@@ -28,21 +28,22 @@ app.disable("x-powered-by");
 app.use("/uploads", express.static("uploads"));
 
 // Swagger Documentation
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpecs, {
-    customCss: ".swagger-ui .topbar { display: none }",
-    customSiteTitle: "Yaqeen Clothing API Documentation",
-    customfavIcon: "/favicon.ico",
-    swaggerOptions: {
-      persistAuthorization: true,
-      displayRequestDuration: true,
-      filter: true,
-      deepLinking: true,
-    },
-  })
-);
+app.use("/api-docs", swaggerUi.serve);
+app.get("/api-docs", (req, res) => {
+  res.send(
+    swaggerUi.generateHTML(swaggerSpecs, {
+      customCss: ".swagger-ui .topbar { display: none }",
+      customSiteTitle: "Yaqeen Clothing API Documentation",
+      customfavIcon: "/favicon.ico",
+      swaggerOptions: {
+        persistAuthorization: true,
+        displayRequestDuration: true,
+        filter: true,
+        deepLinking: true,
+      },
+    })
+  );
+});
 
 // API Routes
 app.use("/api/products", productRoutes);
@@ -83,7 +84,7 @@ mongoose
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
       console.log(
-        `Swagger documentation available at https://yaqeen-backend.vercel.app:${PORT}/api-docs`
+        `Swagger documentation available at http://localhost:${PORT}/api-docs`
       );
     });
   })
